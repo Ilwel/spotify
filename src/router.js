@@ -3,12 +3,24 @@ import {
 
   BrowserRouter as Router,
   Route,
+  Redirect
 
 } from "react-router-dom";
 import AuthContext from "./contexts/AuthContext";
 import Home from "./pages/Home";
 import Playlists from "./pages/Playlists";
 import { getParmsFromSpotifyAuth } from "./utils/getSpotifyToken";
+
+
+function RedirectPlaylists(props) {
+
+  return (
+    <>
+      {!props.token ? props.children : <Redirect to="playlists" />}
+    </>
+  )
+
+}
 
 export default function Routes() {
   const [token, setToken] = useState('');
@@ -28,8 +40,10 @@ export default function Routes() {
   return (
     <AuthContext.Provider value={{ token, setToken, tracks, setTracks }}>
       <Router>
-        <Route path='/' exact component={Home} />
-        <Route path='/show' exact component={Playlists} />
+        <RedirectPlaylists token={token}>
+          <Route path='/' exact component={Home} />
+        </RedirectPlaylists>
+        <Route path='/playlists' exact component={Playlists} />
       </Router>
     </AuthContext.Provider>
   )
