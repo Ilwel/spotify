@@ -29,7 +29,7 @@ export default function Routes() {
     <AuthContext.Provider value={{ token, setToken, tracks, setTracks }}>
       <Router>
         <Route path='/' exact component={Home} />
-        <Route path='/playlists/show' exact component={Playlists} />
+        <Route path='/show' exact component={Playlists} />
       </Router>
     </AuthContext.Provider>
   )
